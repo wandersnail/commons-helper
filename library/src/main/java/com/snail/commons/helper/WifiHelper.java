@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.DhcpInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -71,6 +72,10 @@ public class WifiHelper {
         return wifiManager.getConnectionInfo();
     }
 
+    public DhcpInfo getDhcpInfo() {
+        return wifiManager.getDhcpInfo();
+    }
+
     /**
      * 获取当前Wifi所分配的Ip地址
      */
@@ -88,10 +93,7 @@ public class WifiHelper {
         return NetworkUtils.toAddressString(address);
     }
 
-    /**
-     * 开启热点之后，获取自身热点的IP地址
-     */
-    public String getHotspotLocalIpAddress() {
+    public String getServerIpAddress() {
         int address = wifiManager.getDhcpInfo().serverAddress;
         return NetworkUtils.toAddressString(address);
     }
@@ -372,7 +374,7 @@ public class WifiHelper {
     /**
      * @return {@link #WIFICIPHER_NOPASS},{@link #WIFICIPHER_WEP},{@link #WIFICIPHER_WPA},{@link #WIFICIPHER_WPA2}
      */
-    public static int getWificipher(@NonNull ScanResult result) {
+    public static int getWifiCipher(@NonNull ScanResult result) {
         if (result.capabilities != null) {
             String capabilities = result.capabilities.toUpperCase(Locale.ENGLISH);
             if (capabilities.contains("WEP")) {
