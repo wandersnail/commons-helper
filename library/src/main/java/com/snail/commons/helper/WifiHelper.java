@@ -13,13 +13,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import androidx.annotation.NonNull;
+
 import com.snail.commons.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
 
 /**
  * date: 2019/8/6 16:57
@@ -79,7 +81,7 @@ public class WifiHelper {
     }
 
     /**
-     * 设备连接Wifi之后， 设备获取Wifi热点的IP地址
+     * 设备连接Wifi之后， 设备获取Wifi热点的IP地址（网关）
      */
     public String getIpAddressFromHotspot() {
         int address = wifiManager.getDhcpInfo().gateway;

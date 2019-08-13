@@ -30,7 +30,7 @@ dependencies {
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly "androidx.appcompat:appcompat:$appcompat_version"
     compileOnly 'com.github.wandersnail:commons-basic:1.0.2'
-    compileOnly 'com.github.wandersnail:commons-utils:1.0.2'
+    compileOnly 'com.github.wandersnail:commons-utils:1.0.6'
 }
 
 publish {
