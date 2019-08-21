@@ -19,9 +19,9 @@ import java.util.zip.ZipOutputStream;
 
 import androidx.annotation.NonNull;
 import cn.wandersnail.commons.base.interfaces.Callback;
-import cn.wandersnail.commons.utility.util.FileUtils;
-import cn.wandersnail.commons.utility.util.IOUtils;
-import cn.wandersnail.commons.utility.util.StringUtils;
+import cn.wandersnail.commons.util.FileUtils;
+import cn.wandersnail.commons.util.IOUtils;
+import cn.wandersnail.commons.util.StringUtils;
 
 /**
  * date: 2019/8/8 09:57

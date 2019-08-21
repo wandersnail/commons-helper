@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import cn.wandersnail.commons.utility.util.FileUtils;
+import cn.wandersnail.commons.util.FileUtils;
 
 /**
  * apk安装帮助类

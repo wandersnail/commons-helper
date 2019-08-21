@@ -22,7 +22,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import cn.wandersnail.commons.utility.util.NetworkUtils;
+import cn.wandersnail.commons.util.NetworkUtils;
 
 /**
  * date: 2019/8/6 16:57
