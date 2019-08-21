@@ -1,4 +1,4 @@
-package com.snail.commons.helper;
+package cn.wandersnail.commons.helper;
 
 import android.app.DownloadManager;
 import android.content.Context;
@@ -8,9 +8,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import androidx.annotation.NonNull;
 
 import java.io.File;
+
+import androidx.annotation.NonNull;
 
 /**
  * date: 2019/8/6 14:58

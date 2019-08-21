@@ -1,11 +1,9 @@
-package com.snail.commons.helper;
+package cn.wandersnail.commons.helper;
 
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-
-import com.snail.commons.util.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +11,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import cn.wandersnail.commons.utility.util.FileUtils;
 
 /**
  * 调用系统文件管理选择文件
@@ -33,18 +32,18 @@ public class SysFileChooser {
     public static class Options {
         public boolean allowMultiple;
         public boolean localOnly;
-        public String[] mimeTyps;
+        public String[] mimeTypes;
         public String title;
     }
 
     private Intent generateIntent(Options options) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType(options.mimeTyps != null && options.mimeTyps.length == 1 ? options.mimeTyps[0] : MIME_TYPE_ALL);
+        intent.setType(options.mimeTypes != null && options.mimeTypes.length == 1 ? options.mimeTypes[0] : MIME_TYPE_ALL);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, options.allowMultiple);
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, options.localOnly);
-        if (options.mimeTyps != null && options.mimeTyps.length > 1) {
-            intent.putExtra(Intent.EXTRA_MIME_TYPES, options.mimeTyps);
+        if (options.mimeTypes != null && options.mimeTypes.length > 1) {
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, options.mimeTypes);
         }
         return Intent.createChooser(intent, options.title);
     }
@@ -76,7 +75,7 @@ public class SysFileChooser {
     /**
      * 从选择结果中获取文件的真实路径
      */
-    public List<String> getRealPashsFromResultData(@NonNull Context context, int requestCode, int resultCode, Intent data) {
+    public List<String> getRealPathsFromResultData(@NonNull Context context, int requestCode, int resultCode, Intent data) {
         List<String> paths = new ArrayList<>();
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             ClipData clipData = data.getClipData();

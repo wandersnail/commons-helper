@@ -1,7 +1,6 @@
 ## 代码托管
-[![](https://jitpack.io/v/wandersnail/commons-helper.svg)](https://jitpack.io/#wandersnail/commons-helper)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.wandersnail/commons-helper/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.wandersnail/commons-helper)
-[![Download](https://api.bintray.com/packages/wandersnail/android/commons-helper/images/download.svg) ](https://bintray.com/wandersnail/android/commons-helper/_latestVersion)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.wandersnail/common-helper/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.wandersnail/common-helper)
+[![Download](https://api.bintray.com/packages/wandersnail/android/common-helper/images/download.svg) ](https://bintray.com/wandersnail/android/common-helper/_latestVersion)
 
 
 ## 使用
@@ -10,17 +9,19 @@
 ```
 dependencies {
 	...
-	implementation 'com.github.wandersnail:commons-helper:latestVersion'
+	implementation 'com.github.wandersnail:common-helper:latestVersion'
+	implementation 'com.github.wandersnail:common-base:latestVersion'
+	implementation 'com.github.wandersnail:common-utils:latestVersion'
 }
 ```
 
-2. 如果从jcenter下载失败。在project的build.gradle里的repositories添加内容，最好两个都加上，有时jitpack会抽风，同步不下来。添加完再次同步即可。
+2. 如果从jcenter下载失败。在project的build.gradle里的repositories添加内容，最好两个都加上，添加完再次同步即可。
 ```
 allprojects {
 	repositories {
 		...
-		maven { url 'https://jitpack.io' }
-		maven { url 'https://dl.bintray.com/wandersnail/android/' }
+		mavenCentral()
+		maven { url 'https://dl.bintray.com/wandersnail/androidx/' }
 	}
 }
 ```

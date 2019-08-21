@@ -1,21 +1,27 @@
-package com.snail.commons.helper;
+package cn.wandersnail.commons.helper;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import androidx.annotation.NonNull;
-import com.snail.commons.interfaces.Callback;
-import com.snail.commons.util.FileUtils;
-import com.snail.commons.util.IOUtils;
-import com.snail.commons.util.StringUtils;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import androidx.annotation.NonNull;
+import cn.wandersnail.commons.base.interfaces.Callback;
+import cn.wandersnail.commons.utility.util.FileUtils;
+import cn.wandersnail.commons.utility.util.IOUtils;
+import cn.wandersnail.commons.utility.util.StringUtils;
 
 /**
  * date: 2019/8/8 09:57
@@ -175,18 +181,10 @@ public class ZipHelper {
          * 执行压缩，异步的
          */
         public void execute(final Callback<File> callback) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final File file = execute();
-                    if (callback != null) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                callback.onCallback(file);
-                            }
-                        });
-                    }
+            new Thread(() -> {
+                final File file = execute();
+                if (callback != null) {
+                    handler.post(() -> callback.onCallback(file));
                 }
             }).start();
         }
@@ -316,18 +314,10 @@ public class ZipHelper {
          * 执行解压，异步的
          */
         public void execute(final Callback<Boolean> callback) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final boolean result = execute();
-                    if (callback != null) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                callback.onCallback(result);
-                            }
-                        });
-                    }
+            new Thread(() -> {
+                final boolean result = execute();
+                if (callback != null) {
+                    handler.post(() -> callback.onCallback(result));
                 }
             }).start();
         }

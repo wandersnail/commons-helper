@@ -1,4 +1,4 @@
-package com.snail.commons.helper;
+package cn.wandersnail.commons.helper;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -13,9 +13,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.text.TextUtils;
-
-import com.snail.commons.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import cn.wandersnail.commons.utility.util.NetworkUtils;
 
 /**
  * date: 2019/8/6 16:57
@@ -61,6 +61,13 @@ public class WifiHelper {
         return wifiManager.isWifiEnabled();
     }
 
+    /**
+     * 打开Wifi设置页
+     */
+    public void navigationToWifiSettings() {
+        context.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+    }
+    
     public List<WifiConfiguration> getWifiConfigurations() {
         return wifiManager.getConfiguredNetworks();
     }
@@ -92,7 +99,7 @@ public class WifiHelper {
         int address = wifiManager.getDhcpInfo().gateway;
         return NetworkUtils.toAddressString(address);
     }
-
+    
     public String getServerIpAddress() {
         int address = wifiManager.getDhcpInfo().serverAddress;
         return NetworkUtils.toAddressString(address);
@@ -201,56 +208,50 @@ public class WifiHelper {
         }
         //断开当前
         disconnectCurrentNetwork();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String ssid = wf.SSID;
-                //判断是否已保存
-                WifiConfiguration savedCfg = null;
-                List<WifiConfiguration> networks = wifiManager.getConfiguredNetworks();
-                if (networks != null) {
-                    for (WifiConfiguration network : networks) {
-                        if (network.SSID.equals(ssid)) {
-                            savedCfg = network;
-                            break;
-                        }
+        new Thread(() -> {
+            String ssid = wf.SSID;
+            //判断是否已保存
+            WifiConfiguration savedCfg = null;
+            List<WifiConfiguration> networks = wifiManager.getConfiguredNetworks();
+            if (networks != null) {
+                for (WifiConfiguration network : networks) {
+                    if (network.SSID.equals(ssid)) {
+                        savedCfg = network;
+                        break;
                     }
                 }
-                int netid;
-                if (savedCfg == null) {
-                    netid = wifiManager.addNetwork(wf);
-                } else {
-                    netid = savedCfg.networkId;
-                }
-                //连接新的连接
-                wifiManager.enableNetwork(netid, true);
-                long startTime = System.currentTimeMillis();
-                while (System.currentTimeMillis() - startTime < timeoutMillis) {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ignore) {
-                    }
-                    if (NetworkUtils.isCurrentNetworkWifi(context) && ssid != null && ssid.equals(getWifiInfo().getSSID())) {
-                        handleConnectCallback(callback, true);
-                        return;
-                    }
-                }
-                handleConnectCallback(callback, false);
             }
+            int netid;
+            if (savedCfg == null) {
+                netid = wifiManager.addNetwork(wf);
+            } else {
+                netid = savedCfg.networkId;
+            }
+            //连接新的连接
+            wifiManager.enableNetwork(netid, true);
+            long startTime = System.currentTimeMillis();
+            while (System.currentTimeMillis() - startTime < timeoutMillis) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ignore) {
+                }
+                if (NetworkUtils.isCurrentNetworkWifi(context) && ssid != null && ssid.equals(getWifiInfo().getSSID())) {
+                    handleConnectCallback(callback, true);
+                    return;
+                }
+            }
+            handleConnectCallback(callback, false);
         }).start();
     }
 
     private void handleConnectCallback(final ConnectCallback callback, final boolean result) {
         if (callback != null) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    isConnecting = false;
-                    if (result) {
-                        callback.onSuccess();
-                    } else {
-                        callback.onFail();
-                    }
+            handler.post(() -> {
+                isConnecting = false;
+                if (result) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFail();
                 }
             });
         }

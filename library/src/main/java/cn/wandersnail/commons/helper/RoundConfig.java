@@ -1,4 +1,4 @@
-package com.snail.commons.helper;
+package cn.wandersnail.commons.helper;
 
 import androidx.annotation.NonNull;
 

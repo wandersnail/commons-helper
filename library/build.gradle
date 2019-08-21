@@ -2,9 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'maven'
 
-def lib_version = '1.0.1'
-def lib_group = 'com.github.wandersnail'
-def lib_artifact = 'commons-helper'
+def lib_version = '1.0.0'
+def lib_group = 'cn.wandersnail'
+def lib_artifact = 'common-helper'
 def lib_packaging = 'aar'
 def lib_description = 'commons-helper for Android'
 group = lib_group
@@ -28,23 +28,27 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly "androidx.appcompat:appcompat:$appcompat_version"
-    compileOnly 'com.github.wandersnail:commons-basic:1.0.2'
-    compileOnly 'com.github.wandersnail:commons-utils:1.0.6'
+    compileOnly 'cn.wandersnail:common-base:1.0.0'
+    compileOnly 'cn.wandersnail:common-utils:1.0.0'
 }
 
 publish {
-    repoName="android"//仓库名
+    repoName="androidx"//仓库名
     userOrg = 'wandersnail' //bintray.com用户名  
     groupId = lib_group //jcenter上的路径  
     artifactId = lib_artifact //项目名称  
     publishVersion = lib_version //版本号  
     desc = lib_description
-    website = 'https://github.com/wandersnail/commons'
+    website = 'https://github.com/wandersnail/commons-helper'
 }
 
 if (project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }) {
@@ -65,9 +69,9 @@ if (project.getGradle().startParameter.taskNames.any { it.contains('bintrayUploa
                     version lib_version
 
                     scm {
-                        url 'https://github.com/wandersnail/commons'
-                        connection 'scm:git:https://github.com/wandersnail/commons.git'
-                        developerConnection 'scm:git:https://github.com/wandersnail/commons.git'
+                        url 'https://github.com/wandersnail/commons-helper'
+                        connection 'scm:git:https://github.com/wandersnail/commons-helper.git'
+                        developerConnection 'scm:git:https://github.com/wandersnail/commons-helper.git'
                     }
 
                     licenses {

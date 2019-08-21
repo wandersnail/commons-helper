@@ -1,4 +1,4 @@
-package com.snail.commons.helper;
+package cn.wandersnail.commons.helper;
 
 import android.Manifest;
 import android.app.Activity;
@@ -8,13 +8,14 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 动态申请权限
@@ -23,7 +24,7 @@ import java.util.List;
  * author: zengfansheng
  */
 public class PermissionsRequester {
-    private static final int PERMISSON_REQUESTCODE = 0;
+    private static final int PERMISSION_REQUEST_CODE = 0;
     private static final int REQUEST_CODE_WRITE_SETTINGS = 0;
     private static final int REQUEST_CODE_UNKNOWN_APP_SOURCES = 0;
     
@@ -95,9 +96,9 @@ public class PermissionsRequester {
             return needRequestPermissonList.isEmpty();
         } else if (!needRequestPermissonList.isEmpty()) {
             if (activity != null) {
-                ActivityCompat.requestPermissions(activity, needRequestPermissonList.toArray(new String[0]), PERMISSON_REQUESTCODE);
+                ActivityCompat.requestPermissions(activity, needRequestPermissonList.toArray(new String[0]), PERMISSION_REQUEST_CODE);
             } else {
-                fragment.requestPermissions(needRequestPermissonList.toArray(new String[0]), PERMISSON_REQUESTCODE);
+                fragment.requestPermissions(needRequestPermissonList.toArray(new String[0]), PERMISSION_REQUEST_CODE);
             }
             return false;
         } else {
@@ -110,17 +111,17 @@ public class PermissionsRequester {
 
     //获取权限集中需要申请权限的列表
     private List<String> findDeniedPermissions(List<String> permissions) {
-        List<String> needRequestPermissonList = new ArrayList<>();
+        List<String> needRequestPermissionList = new ArrayList<>();
         Activity activity = this.activity != null ? this.activity : fragment.getActivity();
         if (activity != null) {
             for (String perm : permissions) {
                 if (ContextCompat.checkSelfPermission(activity, perm) != PackageManager.PERMISSION_GRANTED || 
                         ActivityCompat.shouldShowRequestPermissionRationale(activity, perm)) {
-                    needRequestPermissonList.add(perm);
+                    needRequestPermissionList.add(perm);
                 }
             }
         }
-        return needRequestPermissonList;
+        return needRequestPermissionList;
     }
 
     public void onActivityResult(int requestCode) {
@@ -141,7 +142,7 @@ public class PermissionsRequester {
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSON_REQUESTCODE) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
             for (int i = 0; i < permissions.length; i++) {
                 String permission = permissions[i];
                 if (allPermissions.remove(permission) && grantResults[i] != PackageManager.PERMISSION_GRANTED) {

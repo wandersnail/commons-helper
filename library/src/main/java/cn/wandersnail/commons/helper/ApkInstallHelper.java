@@ -1,15 +1,16 @@
-package com.snail.commons.helper;
+package cn.wandersnail.commons.helper;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import com.snail.commons.util.FileUtils;
 
 import java.io.File;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import cn.wandersnail.commons.utility.util.FileUtils;
 
 /**
  * apk安装帮助类
