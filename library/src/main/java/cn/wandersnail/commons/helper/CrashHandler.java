@@ -14,8 +14,10 @@ import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -31,6 +33,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private final String appVerName;
     private final String packageName;
     private final String appName;
+    private final Map<String, String> customInfoMap = new HashMap<>();
 
     public CrashHandler(@NonNull Context context, @NonNull File logDir, Callback callback) {
         Objects.requireNonNull(context, "context is null");
@@ -54,6 +57,16 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
         defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
+    }
+
+    /**
+     * 添加自定义打印信息
+     *
+     * @param name  信息名称
+     * @param value 信息值
+     */
+    public void addCustomInformation(String name, String value) {
+        customInfoMap.put(name, value);
     }
 
     @Override
@@ -83,6 +96,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             pw.println("APP_VERSION=" + appVerName);
             pw.println("APP_NAME=" + appName);
             pw.println("APP_PACKAGE_NAME=" + packageName);
+            for (Map.Entry<String, String> entry : customInfoMap.entrySet()) {
+                pw.println(entry.getKey() + "=" + entry.getValue());
+            }
             e.printStackTrace(pw);
             pw.println("*********************************** CRASH END ***********************************\n");
             String detailError = sw.toString();
