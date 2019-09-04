@@ -39,8 +39,8 @@ android {
 dependencies {
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly "androidx.appcompat:appcompat:$appcompat_version"
-    compileOnly 'cn.wandersnail:common-base:1.0.1'
-    compileOnly 'cn.wandersnail:common-utils:1.0.1'
+    compileOnly 'cn.wandersnail:common-base:1.0.2'
+    compileOnly 'cn.wandersnail:common-utils:1.0.4'
 }
 
 task sourcesJar(type: Jar) {
